@@ -1,0 +1,65 @@
+﻿@model Clinic.Application.DTOs.Reservations.CreateReservationDto
+@{
+    ViewData["Title"] = "ایجاد رزرو";
+}
+
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">داشبورد</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">فرم</h3>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Reservation" asp-action="CreateSingleReservation" method="post">
+                <div class="row push">
+                    <div class="col-12 col-md-3 mb-4">
+                        <label class="form-label" for="example-flatpickr-datetime">انتخاب تاریخ و ساعت</label>
+                        <input asp-for="ReserveDate" class="js-flatpickr form-control" data-enable-time="true" id="example-flatpickr-datetime" type="text" />
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <div class="mb-4">
+                            <label class="form-label">زمان ویزیت</label>
+                            <input class="form-control" asp-for="TimeStep">
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <button class="btn btn-success me-1 mb-3" type="submit">
+                            ذخیره
+                            <i class="fa fa-fw fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section HeaderSection
+{
+    <!-- Page JS Plugins CSS -->
+    <link href="/template/js/plugins/flatpickr/flatpickr.min.css" rel="stylesheet">
+}
+
+@section FooterSection
+{
+    <!-- Page JS Plugins -->
+    <script src="/template/js/plugins/flatpickr/flatpickr.min.js"></script>
+
+    <!-- Page JS Helpers (Flatpickr + BS Datepicker + BS Maxlength + Select2 + Ion Range Slider + Masked Inputs + Password Strength Meter plugins) -->
+    <script>Dashmix.helpersOnLoad(['js-flatpickr']);</script>
+}

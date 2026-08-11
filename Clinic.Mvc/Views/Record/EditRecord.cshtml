@@ -1,0 +1,102 @@
+﻿@model Clinic.Application.DTOs.ReserveRecords.EditRecordDto
+@using Clinic.Data.Entities
+
+@{
+    ViewData["Title"] = "ویرایش نوبت";
+}
+
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">داشبورد</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">فرم</h3>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Record" asp-action="EditRecord" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="row push">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">مبلغ پرداختی</label>
+                            <input class="form-control" asp-for="PaidPrice" id="PaidPrice">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-2">
+                        <div class="mb-4">
+                            <label class="form-label" for="example-select">وضعیت نوبت دهی</label>
+                            <select asp-for="State" asp-items="@Html.GetEnumSelectList<ReservationState>()" class="form-select" id="example-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-2">
+                        <div class="mb-4">
+                            <label class="form-label" for="example-select">روش پرداخت</label>
+                            <select asp-for="PaymentMethod" asp-items="@Html.GetEnumSelectList<PaymentMethod>()" class="form-select" id="example-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="mb-4">
+                        <textarea asp-for="Description" id="js-ckeditor5-classic"></textarea>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <button class="btn btn-success me-1 mb-3" type="submit">
+                            ذخیره
+                            <i class="fa fa-fw fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section FooterSection
+{
+    <!-- Enhance Price - 1000 -> 1,000 -->
+    <script>
+        function formatNumber(value) {
+            if (!value) return "";
+            return Number(value).toLocaleString("en-US");
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.getElementById("PaidPrice");
+
+            input.value = formatNumber(input.value);
+
+            input.addEventListener("input", function () {
+                const cursorPosition = this.selectionStart;
+                const rawValue = this.value.replace(/\D/g, "");
+                const formattedValue = formatNumber(rawValue);
+
+                this.value = formattedValue;
+
+                const diff = formattedValue.length - rawValue.length;
+                this.setSelectionRange(cursorPosition + diff, cursorPosition + diff);
+            });
+        });
+    </script>
+
+    <!-- Page JS Plugins -->
+    <script src="template/js/plugins/ckeditor5-classic/build/ckeditor.js"></script>
+    <script>Dashmix.helpersOnLoad(['js-ckeditor5']);</script>
+}

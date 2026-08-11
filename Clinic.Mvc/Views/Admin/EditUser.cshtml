@@ -1,0 +1,43 @@
+﻿@model Clinic.Application.DTOs.Users.EditUserDto
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+}
+
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">داشبورد</a></li>
+                    <li aria-current="page" class="breadcrumb-item active"></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-content">
+            <div class="row push">
+                <div class="col-12">
+                    <form asp-controller="Admin" asp-action="EditUser" method="post">
+                        <input type="hidden" asp-for="Id"/>
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <input asp-for="Fullname" class="form-control" placeholder="نام و نام خانوادگی">
+                                <span asp-validation-for="Fullname" class="text-danger"></span>
+                            </div>
+                            <div class="col-4">
+                                <input asp-for="Mobile" class="form-control" placeholder="شماره موبایل">
+                                <span asp-validation-for="Fullname" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" type="submit">ذخیره</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

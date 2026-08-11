@@ -1,0 +1,73 @@
+﻿@model Clinic.Data.Entities.User
+
+<nav aria-label="Main Navigation" id="sidebar">
+    <!-- Side Header (mini Sidebar mode) -->
+    <div class="smini-visible-block">
+        <div class="content-header bg-black-10">
+            <!-- Logo -->
+            <a class="fw-semibold text-white tracking-wide" href="/">
+                D<span class="opacity-75">x</span>
+            </a>
+            <!-- END Logo -->
+        </div>
+    </div>
+
+    <div class="smini-hidden">
+        <div class="content-header justify-content-lg-center">
+            <!-- Logo -->
+            <a class="fw-semibold text-white tracking-wide" href="/">
+                Dash<span class="opacity-75">mix</span>
+                <span class="fw-normal"> پزشکی </span>
+            </a>
+            <!-- END Logo -->
+            <!-- Options -->
+            <div class="d-lg-none">
+                <button class="btn btn-sm btn-alt-secondary d-lg-none" data-action="sidebar_close" data-toggle="layout"
+                        type="button">
+                    <i class="fa fa-times-circle"></i>
+                </button>
+                <!-- END Close Sidebar -->
+            </div>
+            <!-- END Options -->
+        </div>
+    </div>
+    <!-- END Side Header (normal Sidebar mode) -->
+    <!-- Sidebar Scrolling -->
+    <div class="js-sidebar-scroll" data-simplebar-direction='rtl'>
+        <!-- Side Actions -->
+        <div class="content-side content-side-full text-center bg-black-10">
+            <div class="smini-hide">
+                <img alt="" class="img-avatar" src="/template/media/avatars/avatar15.jpg">
+                <div class="mt-2 mb-1 fw-semibold">@Model.FullName</div>
+                <div class="mt-2 mb-1 fw-semibold">@Model.Mobile</div>
+            </div>
+        </div>
+        <!-- END Side Actions -->
+        <!-- Side Navigation -->
+        <div class="content-side">
+            <ul class="nav-main">
+                <li class="nav-main-item">
+                    <a class="nav-main-link" asp-controller="Record" asp-action="FilterRecord">
+                        <span class="nav-main-link-name"> لیست نوبت ها </span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link" asp-controller="Reservation" asp-action="SearchDays">
+                        <span class="nav-main-link-name">نوبت دهی</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link" asp-controller="Patient" asp-action="SearchPatient">
+                        <span class="nav-main-link-name">لیست بیماران</span>
+                    </a>
+                </li>
+                <hr />
+                <li class="nav-main-item">
+                    <a class="nav-main-link" asp-controller="Account" asp-action="LogOut">
+                        <span class="nav-main-link-name">خروج از حساب</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

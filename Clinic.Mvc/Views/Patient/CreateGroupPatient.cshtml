@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "ایجاد گروهی بیماران";
+}
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">@ViewData["Title"]</h3>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Patient" asp-action="CreateGroupPatient" method="post" id="patientsForm">
+                <table class="table table-vcenter table-bordered table-responsive" id="patientsTable">
+                    <tbody id="formBody">
+                        <tr>
+                            <td style="width:5%">
+                                <span>1 )</span>
+                            </td>
+                            <td style="width:30%">
+                                <div>
+                                    <input class="form-control" name="patients[0].FullName" type="text" placeholder="نام و نام خانوادگی">
+                                </div>
+                            </td>
+
+                            <td style="width:20%">
+                                <div>
+                                    <input class="form-control" name="patients[0].NationalId" type="text" placeholder="کد ملی">
+                                </div>
+                            </td>
+
+                            <td style="width:15%">
+                                <div>
+                                    <input class="form-control" name="patients[0].Mobile" type="text" placeholder="تماس">
+                                </div>
+                            </td>
+
+                            <td style="width:10%">
+                                <div>
+                                    <input class="form-control" name="patients[0].Age" type="number" placeholder="سن">
+                                </div>
+                            </td>
+
+                            <td style="width:15%">
+                                <select class="form-select" name="patients[0].Gender">
+                                    <option value="Male">آقا</option>
+                                    <option value="Female">خانم</option>
+                                </select>
+                            </td>
+
+                            <td style="width:5%">
+                                <div>
+                                    <button class="btn btn-danger" disabled="disabled" type="button">
+                                        <i class="far fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-warning my-2" id="alertText" style="display:none">
+                    <p class="mb-0" id="formMessage"></p>
+                </div>
+
+                <div class="mt-3">
+                    <button class="btn btn-primary btn-sm" type="button" id="addRow"> + افزودن سطر </button>
+                </div>
+
+                <div class="mt-3 mb-5">
+                    <button class="btn btn-info btn-sm" data-bs-target="#modal-default-normal" data-bs-toggle="modal" 
+                            type="button">خالی کردن فرم</button>
+
+                    <button class="btn btn-success btn-sm" type="submit">ذخیره بیماران</button>
+                </div>
+                
+                <div aria-hidden="true" aria-labelledby="modal-default-normal" class="modal" id="modal-default-normal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">حذف</h5>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                            </div>
+                            <div class="modal-body pb-1">
+                                <p>آیا از خالی کردن فرم مطمئن هستید ؟</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-danger" data-bs-dismiss="modal" type="button">خیر</button>
+                                <button class="btn btn-sm btn-success" data-bs-dismiss="modal" type="reset" onclick="resetForm()">بله</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section FooterSection
+{
+    <script src="/template/js/creategrouppatients.js"></script>
+}

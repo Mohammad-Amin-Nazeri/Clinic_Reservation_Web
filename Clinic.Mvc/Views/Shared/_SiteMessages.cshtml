@@ -1,0 +1,65 @@
+﻿@if (TempData["SuccessMessage"] != null ||
+TempData["WarningMessage"] != null ||
+TempData["ErrorMessage"] != null ||
+TempData["InfoMessage"] != null)
+{
+    @if (TempData["SuccessMessage"] != null) 
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: "پیغام موفقیت",
+                    text: '@TempData["SuccessMessage"]',
+                    icon: "success",
+                    width: '28em',
+                    confirmButtonText: "باشه"
+                });
+            });
+        </script>
+    }
+
+    @if (TempData["WarningMessage"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: "پیغام هشدار",
+                    text: '@TempData["WarningMessage"]',
+                    icon: "warning",
+                    width: '28em',
+                    confirmButtonText: "باشه"
+                });
+            });
+        </script>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    icon: "error",
+                    width: '28em',
+                    title: "خطایی رخ داده",
+                    text: '@TempData["ErrorMessage"]',
+                    confirmButtonText: "باشه"
+                });
+            });
+        </script>
+    }
+
+    @if (TempData["InfoMessage"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    icon: "info",
+                    title: "اطلاعیه",
+                    width: '28em',
+                    text: '@TempData["InfoMessage"]',
+                    confirmButtonText: "باشه"
+                });
+            });
+        </script>
+    }
+}

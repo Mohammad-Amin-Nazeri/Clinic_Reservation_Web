@@ -1,0 +1,153 @@
+﻿@using System.Globalization
+@using Clinic.Application.Utilities
+@model List<DateTime>
+@{
+    ViewData["Title"] = "مدیریت رزرو ها";
+
+    var pc = new PersianCalendar();
+
+    // Take and Cast view bags
+    var selectedYear = ViewBag.SelectedYear != null ? (int)ViewBag.SelectedYear : pc.GetYear(DateTime.Now);
+    var selectedMonth = ViewBag.SelectedMonth != null ? (int)ViewBag.SelectedMonth : pc.GetMonth(DateTime.Now);
+
+    // Calculate years based on current year
+    var previousYear = selectedYear - 1;
+    var thisYear = selectedYear;
+    var nextYear = selectedYear + 1;
+    var nextTwoYear = selectedYear + 2;
+}
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">داشبورد</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="content content-full">
+    <div class="row justify-content-end">
+        <div class="col-12 col-md-7">
+            <form asp-area="" asp-controller="Reservation" asp-action="SearchDays" method="get">
+                <div class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-12">
+                        <select class="form-select" name="year">
+                            <option value="@previousYear" selected="@(selectedYear == previousYear)">@previousYear</option>
+                            <option value="@thisYear" selected="@(selectedYear == thisYear)">@thisYear</option>
+                            <option value="@nextYear" selected="@(selectedYear == nextYear)">@nextYear</option>
+                            <option value="@nextTwoYear" selected="@(selectedYear == nextTwoYear)">@nextTwoYear</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <select class="form-select" name="month">
+                            <option value="1" selected="@(selectedMonth == 1)">فروردین</option>
+                            <option value="2" selected="@(selectedMonth == 2)">اردیبهشت</option>
+                            <option value="3" selected="@(selectedMonth == 3)">خرداد</option>
+                            <option value="4" selected="@(selectedMonth == 4)">تیر</option>
+                            <option value="5" selected="@(selectedMonth == 5)">مرداد</option>
+                            <option value="6" selected="@(selectedMonth == 6)">شهریور</option>
+                            <option value="7" selected="@(selectedMonth == 7)">مهر</option>
+                            <option value="8" selected="@(selectedMonth == 8)">آبان</option>
+                            <option value="9" selected="@(selectedMonth == 9)">آذر</option>
+                            <option value="10" selected="@(selectedMonth == 10)">دی</option>
+                            <option value="11" selected="@(selectedMonth == 11)">بهمن</option>
+                            <option value="12" selected="@(selectedMonth == 12)">اسفند</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-success btn-sm" type="submit">جستجو</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-5 d-inline-flex gap-1 justify-content-end">
+            <a asp-controller="Reservation" asp-action="CreateSingleReservation" class="btn btn-sm btn-success">ایجاد یک نوبت</a>
+            
+            <a asp-controller="Reservation" asp-action="CreateGroupReservation" class="btn btn-sm btn-info">ایجاد گروهی نوبت</a>
+          
+            <button class="btn btn-danger btn-sm" data-bs-target="#modal-default-normal"
+                    data-bs-toggle="modal" type="button">
+                حذف گروهی رزرو ها
+            </button>
+        </div>
+    </div>
+    <div class="row g-sm push mt-3">
+        @if (Model.Any())
+        {
+            @foreach (var date in Model.OrderBy(d => d))
+            {
+                var parts = date.ToShamsiParts();
+                var shamsiUrlDate = date.ToShamsiUrlFormat();
+                <div class="col-6 col-md-4 col-xl-2">
+                    <a asp-area="" asp-controller="Reservation" asp-action="DateReservations" asp-route-date="@shamsiUrlDate" class="block block-link-pop text-center pointer">
+                        <div class="block-content block-content-full ratio ratio-16x9">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div>
+                                    <div class="fs-2 fw-light text-body-color-dark">@parts.DayName</div>
+                                    <div class="fw-semibold mt-2 text-uppercase text-muted">@parts.DayNumber @parts.MonthName</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <div class="alert alert-info">
+                    هیچ روزی برای نمایش وجود ندارد
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal حذف گروهی -->
+<div aria-hidden="true" aria-labelledby="modal-default-normal" class="modal" id="modal-default-normal" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">حذف گروهی رزرو ها</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <form asp-area="" asp-controller="Reservation" asp-action="DeleteGroupReservation" method="post">
+                <div class="modal-body pb-1">
+                    <div class="alert alert-danger my-2" role="alert">
+                        <p class="mb-0">با انتخاب سال و ماه مورد نظر میتوانید تمام رزرو های آن تاریخ را حذف کنید. توجه کنید رزرو هایی که سابقا در یک نوبت استفاده شده اند حذف نخواهند شد.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="delete-year">سال مورد نظر</label>
+                        <input class="form-control" id="delete-year" name="year" placeholder="مثال: 1404" type="number" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="delete-month">ماه مورد نظر</label>
+                        <select class="form-select" id="delete-month" name="month" required>
+                            <option value="">انتخاب ماه</option>
+                            <option value="1">فروردین</option>
+                            <option value="2">اردیبهشت</option>
+                            <option value="3">خرداد</option>
+                            <option value="4">تیر</option>
+                            <option value="5">مرداد</option>
+                            <option value="6">شهریور</option>
+                            <option value="7">مهر</option>
+                            <option value="8">آبان</option>
+                            <option value="9">آذر</option>
+                            <option value="10">دی</option>
+                            <option value="11">بهمن</option>
+                            <option value="12">اسفند</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal" type="button">بستن</button>
+                    <button class="btn btn-sm btn-danger" type="submit">حذف همه</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

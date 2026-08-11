@@ -1,0 +1,86 @@
+﻿@model List<Clinic.Application.DTOs.Users.UserDetailDto>
+@{
+    ViewData["Title"] = "لیست کاربران سیستم";
+}
+
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">داشبورد</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="block block-rounded">
+    <div class="block-content">
+        <div class="mb-4">
+            <a asp-controller="Admin" asp-action="CreateUser" class="btn btn-alt-success me-1 mb-3" type="button">
+                <i class="fa fa-fw fa-plus opacity-50 me-1"></i> افزودن کاربر
+            </a>
+        </div>
+        <table class="table table-bordered table-striped table-vcenter">
+            <thead>
+                <tr>
+                    <th>نام</th>
+                    <th>شماره موبایل</th>
+                    <th class=" text-center">عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var user in Model.OrderByDescending(d => d.CreateDate))
+                    {
+                        <tr>
+                            <td class="fw-semibold">
+                                <span>@user.FullName</span>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                <span>@user.Mobile</span>
+                            </td>
+                            <td class="text-center d-flex">
+                                <a asp-controller="Admin" asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-sm btn-hero btn-warning me-1 mb-3" type="button">
+                                    <i class="fa fa-fw fa-exclamation-triangle me-1"></i>ویرایش
+                                </a>
+                                <button class="btn btn-sm btn-danger me-1 mb-3" data-bs-target="#modal-block-vcenter-@user.Id" data-bs-toggle="modal" type="button">
+                                    <i class="fa fa-fw fa-times me-1"></i> حذف
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    @foreach (var user in Model)
+    {
+        <div aria-hidden="true" aria-labelledby="modal-block-vcenter-@user.Id" class="modal" id="modal-block-vcenter-@user.Id"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">نایید حذف</h5>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body pb-1">
+                        <p>آیا از حذف @user.FullName مطمئن هستید ؟</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal" type="button">خیر</button>
+                        <button class="btn btn-sm btn-primary" data-bs-dismiss="modal" type="button">بله</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

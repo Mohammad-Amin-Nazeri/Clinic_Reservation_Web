@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html dir="rtl" lang="fa" class="remember-theme">
+<head>
+    <partial name="_MetaTags" />
+    <partial name="_SiteHeaderRef" />
+    @RenderSection("HeaderSection", false)
+</head>
+<body>
+    <div class="rtl-support sidebar-o sidebar-dark side-scroll page-header-fixed main-content-boxed" id="page-container">
+        @await Component.InvokeAsync("SiteHeader")
+        @await Component.InvokeAsync("SiteNev")
+        <main id="main-container">
+            @RenderBody()
+        </main>
+        <partial name="_SiteFooter" />
+    </div>
+    <partial name="_SiteFooterRef" />
+    <partial name="_SiteMessages" />
+    @RenderSection("FooterSection", false)
+</body>
+</html>

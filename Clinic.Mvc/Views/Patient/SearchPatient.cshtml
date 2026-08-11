@@ -1,0 +1,172 @@
+﻿@using Clinic.Application.DTOs.Patients
+@using Clinic.Application.Utilities
+@model Clinic.Application.DTOs.Patients.FilterPatientsDto
+@{
+    ViewData["Title"] = "جستجوی بیماران";
+    var index = 1;
+}
+
+<div class="content">
+    <form asp-controller="Patient" asp-action="SearchPatient" method="get" id="DataForm">
+        <input type="hidden" asp-for="PageId" id="PageId"/>
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">@ViewData["Title"]</h3>
+                <div class="block-options">
+                    <div class="block-options-item">
+                        <a asp-controller="Patient" asp-action="CreateSinglePatient" class="btn btn-success btn-sm">افزودن بیمار</a>
+                        <a asp-controller="Patient" asp-action="CreateGroupPatient" class="btn btn-info btn-sm">افزودن گروهی</a>
+                        <a data-bs-target="#modal-default-normal" data-bs-toggle="modal"
+                           class="btn btn-primary btn-sm">جستجوی بیمار</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-content">
+                @if (Model.Data.Any())
+                {
+                    <table class="table table-vcenter">
+                        <thead>
+                        <tr class="table-dark">
+                            <th class="text-center" style="width: 50px;">#</th>
+                            <th>نام و نام خانوادگی</th>
+                            <th>سن</th>
+                            <th>شماره تماس</th>
+                            <th>شماره ملی</th>
+                            <th class="d-none d-sm-table-cell" style="width: 15%;">تاریخ ثبت نام</th>
+                            <th class="text-center" style="width: 100px;">عملیات</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var patient in Model.Data)
+                        {
+                            <tr>
+                                <th class="text-center" scope="row">@index )</th>
+                                <td class="fw-semibold">
+                                    <a asp-controller="Patient" asp-action="PatientDetail" asp-route-id="@patient.Id">@patient.FullName</a>
+                                </td>
+                                <td class="">
+                                    <span class="">@patient.Age</span>
+                                </td>
+                                <td>
+                                    <span class="">@patient.Mobile</span>
+                                </td>
+                                <td>
+                                    <span class="">@patient.NationalId</span>
+                                </td>
+                                <td>
+                                    <span>@patient.CreateDate.ToShamsiDate()</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a asp-controller="Patient" asp-action="EditPatient" asp-route-id="@patient.Id" class="btn btn-sm btn-warning">
+                                            ویرایش
+                                        </a>
+                                        <a data-bs-target="#modal-default-normal-@patient.Id" data-bs-toggle="modal"
+                                           class="btn btn-sm btn-danger">
+                                            حذف
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                        </tbody>
+                    </table>
+
+                    <partial name="_Pagination" model="@Model.GetCurrentPaging()"/>
+                }
+                else
+                {
+                    <div class="alert alert-info" role="alert">
+                        <p class="mb-0">اطلاعاتی با توجه به نتیجه ی جستجو یافت نشد.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- جستجوی بیمار -->
+        <div aria-hidden="true" aria-labelledby="modal-default-normal" class="modal" id="modal-default-normal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="block-header bg-primary-dark text-light">
+                        <h3 class="block-title">جستجوی بیماران</h3>
+                        <div class="block-options">
+                            <button aria-label="Close" class="btn-block-option" data-bs-dismiss="modal" type="button">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body pb-1">
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label">نام و نام خانوادگی</label>
+                                <input class="form-control" asp-for="FullName">
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label">کد ملی</label>
+                                <input class="form-control" asp-for="NationalId">
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label">شماره تماس</label>
+                                <input class="form-control" asp-for="Mobile">
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label">سن</label>
+                                <input class="form-control" asp-for="Age">
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label">جنسیت</label>
+                                <select asp-items="@Html.GetEnumSelectList<FilterGender>()" class="form-select" asp-for="Gender"></select>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-2">
+                                <label class="form-label">ترتیب نمایش</label>
+                                <select asp-items="@Html.GetEnumSelectList<ListOrder>()" class="form-select" asp-for="ListOrder"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-1">تعداد بیماران بر اساس جستجو : @Model.Data.Count()</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal" type="button">بستن</button>
+                        <button class="btn btn-sm btn-success" type="submit">جستجو</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Modal حذف گروهی -->
+@if (Model.Data.Any())
+{
+    @foreach (var patient in Model.Data)
+    {
+        <div aria-hidden="true" aria-labelledby="modal-default-normal" class="modal" id="modal-default-normal-@patient.Id" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">حذف</h5>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body pb-1">
+                        <p>آیا از حذف بیمار @patient.FullName مطمئن هستید ؟</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal" type="button">لغو</button>
+                        <a asp-controller="Patient" asp-action="DeletePatient" asp-route-id="@patient.Id"
+                           class="btn btn-sm btn-danger" type="submit">حذف</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

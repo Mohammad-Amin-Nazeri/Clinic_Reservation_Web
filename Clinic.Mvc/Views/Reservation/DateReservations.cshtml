@@ -1,0 +1,105 @@
+﻿@using Clinic.Application.DTOs.ReserveRecords
+@using Clinic.Application.Utilities
+@model Clinic.Application.DTOs.Reservations.FilterReservationsDto
+@{
+    ViewData["Title"] = "رزرو های امروز";
+    var index = 1;
+}
+<!-- Hero -->
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">داشبورد</li>
+                    <li aria-current="page" class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">@Model.ReserveDate.ToShamsi()</h3>
+            <div class="block-options">
+                <button class="btn-block-option" type="button">
+                    <i class="si si-settings"></i>
+                </button>
+            </div>
+        </div>
+        <div class="block-content">
+            @if (Model.Data.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-vcenter">
+                        <thead>
+                            <tr>
+                                <th style="width:5%">#</th>
+                                <th style="width: 20%;">ساعت</th>
+                                <th style="width: 10%;">وضعیت</th>
+                                <th class="text-center" style="width:30%">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Data.OrderBy(d => d.ReserveDate))
+                            {
+                                <tr>
+                                    <td>@index</td>
+                                    <td class="fw-semibold">
+                                        <a>@item.ReserveDate.ToString("HH:m")</a>
+                                    </td>
+                                    <td>
+                                        @if (item.Reserved)
+                                        {
+                                            <span class="badge bg-danger">رزرو شده</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">رزرو نشده</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-inline-flex gap-1">
+                                            @if (!item.Reserved)
+                                            {
+                                                <a data-bs-target="#modal-default-normal-@item.Id"
+                                                   data-bs-toggle="modal" class="btn btn-sm btn-success ">
+                                                    ثبت نوبت
+                                                </a>
+                                            }
+                                          
+                                            <a class="btn btn-sm btn-warning ">
+                                                ویرایش
+                                            </a>
+                                            <a class="btn btn-sm btn-danger ">
+                                                حذف
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                    <p class="mb-0">برای این روز رزروی تعیین نشده است.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@if (Model.Data.Any())
+{
+    foreach (var reservation in Model.Data)
+    {
+        <!-- جستجوی بیمار -->
+        <partial name="_SubmitReservationPartial" model="@new ReserveTimeDto {ReservationId = reservation.Id}"/>
+    }
+}

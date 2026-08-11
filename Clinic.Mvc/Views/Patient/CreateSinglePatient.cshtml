@@ -1,0 +1,82 @@
+﻿@using Clinic.Data.Entities
+@model Clinic.Application.DTOs.Patients.CreatePatientDto
+
+@{
+    ViewData["Title"] = "ایجاد بیمار";
+}
+
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">داشبورد</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">فرم</h3>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Patient" asp-action="CreateSinglePatient" method="post">
+                <div class="row push">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">نام و نام خانوادگی</label>
+                            <input class="form-control" asp-for="FullName">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">کد ملی</label>
+                            <input class="form-control" asp-for="NationalId">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">موبایل</label>
+                            <input class="form-control" asp-for="Mobile">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">سن</label>
+                            <input class="form-control" asp-for="Age" type="number">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-2">
+                        <div class="mb-4">
+                            <label class="form-label" for="example-select">جنسیت</label>
+                            <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()" class="form-select" id="example-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <textarea class="form-control" rows="4" asp-for="Description" placeholder="توضیحات اختیاری">
+
+                    </textarea>
+
+                    <div class="col-12 mt-4">
+                        <button class="btn btn-success me-1 mb-3" type="submit">
+                            ذخیره
+                            <i class="fa fa-fw fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

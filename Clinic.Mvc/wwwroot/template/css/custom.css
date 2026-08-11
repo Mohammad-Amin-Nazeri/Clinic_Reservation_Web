@@ -1,0 +1,38 @@
+﻿.w-35px{
+    width : 35px;
+}
+
+.otp-resend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+    .otp-resend span {
+        color: #2e2d2d;
+        font-size: 15px;
+    }
+
+    .otp-resend button {
+        padding: 5px 10px;
+        background: none;
+        font-size: 10px;
+        border-radius: 8px;
+        border: 1px solid #16A34A;
+        color: #16A34A;
+    }
+
+        .otp-resend button:disabled {
+            border-color: red;
+            color: red;
+        }
+
+
+.text-align-left {
+    text-align : left;
+}
+
+.pagination-nav {
+    display : flex !important;
+    justify-content : center !important;
+}

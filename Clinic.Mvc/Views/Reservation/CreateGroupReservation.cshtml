@@ -1,0 +1,138 @@
+﻿@model Clinic.Application.DTOs.Reservations.CreateGroupReservationDto
+@{
+    ViewData["Title"] = "ایجاد گروهی نوبت";
+}
+
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">@ViewData["Title"]</h1>
+            <nav aria-label="breadcrumb" class="flex-shrink-0 my-2 my-sm-0 ms-sm-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">داشبورد</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">فرم</h3>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Reservation" asp-action="CreateGroupReservation" method="post">
+                <div class="row push">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">سال</label>
+                            <input class="form-control" asp-for="Year">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label" for="example-select">ماه</label>
+                            <select asp-for="Month" class="form-select" id="example-select">
+                                <option selected="">ماه را انتخاب کنید</option>
+                                <option value="1">فروردین</option>
+                                <option value="2">اردیبهشت</option>
+                                <option value="3">خرداد</option>
+                                <option value="4">تیر</option>
+                                <option value="5">مرداد</option>
+                                <option value="6">شهریور</option>
+                                <option value="7">مهر</option>
+                                <option value="8">آبان</option>
+                                <option value="9">آذر</option>
+                                <option value="10">دی</option>
+                                <option value="11">بهمن</option>
+                                <option value="12">اسفند</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">زمان هر ویزیت</label>
+                            <input class="form-control" asp-for="TimeStepMinutes" min="1" max="60">
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">زمان شروع ویزیت</label>
+                            <input class="form-control" asp-for="StartTime" type="time">
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">زمان پایان ویزیت</label>
+                            <input class="form-control" asp-for="EndTime" type="time">
+                        </div>
+                    </div>
+                    
+                    <h2 class="content-heading pt-0">روز های پذیرش بیمار</h2>
+                    <div class="row">
+                        <div class="col-6 col-md-3 col-lg-1">
+                            <div class="form-check">
+                                <input class="form-check-input" id="Saturday" name="@nameof(Model.VisitDays)" type="checkbox" value="@DayOfWeek.Saturday">
+                                <label class="form-check-label" for="Saturday">شنبه</label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <div class="form-check">
+                                <input class="form-check-input" id="Sunday" name="@nameof(Model.VisitDays)" type="checkbox" value="@DayOfWeek.Sunday">
+                                <label class="form-check-label" for="Sunday">یکشنبه</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <div class="form-check">
+                                <input class="form-check-input" id="Monday" name="@nameof(Model.VisitDays)" type="checkbox" value="@DayOfWeek.Monday">
+                                <label class="form-check-label" for="Monday">دوشنبه</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <div class="form-check">
+                                <input class="form-check-input" id="Tuesday" name="@nameof(Model.VisitDays)" type="checkbox" value="@DayOfWeek.Tuesday">
+                                <label class="form-check-label" for="Tuesday">سه شنبه</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <div class="form-check">
+                                <input class="form-check-input" id="Wednesday" name="@nameof(Model.VisitDays)" type="checkbox" value="@DayOfWeek.Wednesday">
+                                <label class="form-check-label" for="Wednesday">چهارشنبه</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <div class="form-check">
+                                <input class="form-check-input" id="Thursday" name="@nameof(Model.VisitDays)" type="checkbox" value="@DayOfWeek.Thursday">
+                                <label class="form-check-label" for="Thursday">پنجشنبه</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-6 col-md-3 col-lg-1">
+                            <div class="form-check">
+                                <input class="form-check-input" id="Friday" name="@nameof(Model.VisitDays)" type="checkbox" value="@DayOfWeek.Friday">
+                                <label class="form-check-label" for="Friday">جمعه</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 mt-4">
+                        <button class="btn btn-success me-1 mb-3" type="submit">
+                            ذخیره
+                            <i class="fa fa-fw fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

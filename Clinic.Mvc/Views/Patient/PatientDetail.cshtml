@@ -1,0 +1,132 @@
+﻿@using Clinic.Application.Extensions
+@using Clinic.Application.Utilities
+@model Clinic.Application.DTOs.Patients.PatientDetailDto
+@{
+    ViewData["Title"] = "جزئیات نوبت";
+    var index = 1;
+}
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">@ViewData["Title"]</h3>
+            <div class="block-options">
+                <div class="block-options-item">
+                    <a data-bs-target="#modal-default-normal" data-bs-toggle="modal" class="btn btn-primary btn-sm">جستجوی نوبت</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="block-content">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-center text-bg-primary">@Model.FullName</h3>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>کد ملی : 
+                        @if (Model.NationalId != null)
+                        {
+                            @Model.NationalId
+                        }
+                    </p>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>شماره تماس : @Model.Mobile</p>
+                </div>
+                
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>سن : 
+                        @if (Model.Age != null)
+                        {
+                            @Model.Age
+                        }
+                    </p>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>تاریخ ایجاد : @Model.CreateDate.ToShamsiDate()</p>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>
+                        جنسیت : @Model.Gender.GetEnumName()
+                    </p>
+                </div>
+
+                <p class="text-bold text-bg-primary text-center">توضیحات</p>
+
+                @if (Model.Description != null)
+                {
+                    <div class="col-12">
+                        @Html.Raw(Model.Description)
+                    </div>
+                }
+            </div>
+            
+            <p class="text-bold text-bg-primary text-center">لیست نوبت ها</p>
+            @if (Model.ReserveRecords.Any())
+            {
+                <table class="table table-vcenter table-bordered">
+                    <thead>
+                        <tr class="table-dark">
+                            <th class="text-center" style="width: 50px;">#</th>
+                            <th>تاریخ نوبت</th>
+                            <th>ساعت نوبت</th>
+                            <th>مبلغ پرداختی</th>
+                            <th>نحوه پرداخت</th>
+                            <th class="d-none d-sm-table-cell" style="width: 15%;">تاریخ ثبت</th>
+                            <th class="text-center" style="width: 100px;">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var record in Model.ReserveRecords.OrderByDescending(d => d.CreateDate))
+                        {
+                            <tr>
+                                <th class="text-center" scope="row">@index )</th>
+                                <td class="">
+                                    <span class="">@record.Reservation.ReserveDate.ToShortDateString()</span>
+                                </td>
+
+                                <td>
+                                    <span class="">@record.Reservation.ReserveDate.ToString("HH:mm")</span>
+                                </td>
+                                
+                                <td>
+                                    <span>@record.PaidPrice.ToString("#,0 تومان")</span>
+                                </td>
+                                
+                                <td>
+                                    <span>@record.PaymentMethod.GetEnumName()</span>
+                                </td>
+
+                                <td>
+                                    <span>@record.CreateDate.ToShamsiDate()</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a asp-controller="Record" asp-action="EditRecord" asp-route-id="@record.Id" class="btn btn-sm btn-warning">
+                                            ویرایش
+                                        </a>
+                                        <a data-bs-target="#modal-default-normal-@record.Id" data-bs-toggle="modal"
+                                           class="btn btn-sm btn-danger">
+                                            حذف
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert">
+                    <p class="mb-0">نوبتی برای بیمار ثبت نشده است.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

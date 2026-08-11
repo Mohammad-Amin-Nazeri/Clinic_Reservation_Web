@@ -1,0 +1,55 @@
+﻿@using Clinic.Application.Extensions
+@using Clinic.Application.Utilities
+@model Clinic.Application.DTOs.ReserveRecords.ReservationRecordDetailDto
+@{
+    ViewData["Title"] = "جزئیات نوبت";
+}
+
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">@ViewData["Title"]</h3>
+            <div class="block-options">
+                <div class="block-options-item">
+                    <a data-bs-target="#modal-default-normal" data-bs-toggle="modal" class="btn btn-primary btn-sm">جستجوی نوبت</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="block-content">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-center text-bg-primary">@Model.Patient.FullName</h3>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>تاریخ و ساعت نوبت : @Model.Reservation.ReserveDate.ToShamsiDate() - @Model.Reservation.ReserveDate.ToString("HH:mm")</p>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>وضعیت نوبت : @Model.State.GetEnumName()</p>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>
+                        مبلغ پرداختی : @Model.PaidPrice.ToString("#,0 تومان")
+                    </p>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-6 mb-2">
+                    <p>نحوه پرداخت : @Model.PaymentMethod.GetEnumName()</p>
+                </div>
+
+                <hr />
+
+                <p class="text-bold text-bg-primary text-center">توضیحات</p>
+
+                @if (Model.Description != null)
+                {
+                    <div class="col-12">
+                        @Html.Raw(Model.Description)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

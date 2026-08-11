@@ -1,0 +1,41 @@
+﻿@model Clinic.Application.DTOs.ReserveRecords.ReserveTimeDto
+
+<div aria-hidden="true" aria-labelledby="modal-default-normal-@Model.ReservationId" class="modal" id="modal-default-normal-@Model.ReservationId" role="dialog" tabindex="-1">
+    <form asp-controller="Record" asp-action="CreateRecord" method="post">
+        <input type="hidden" asp-for="ReservationId" />
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="block-header bg-primary-dark text-light">
+                    <h3 class="block-title">ثبت نوبت</h3>
+                    <div class="block-options">
+                        <button aria-label="Close" class="btn-block-option" data-bs-dismiss="modal" type="button">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body pb-1">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-2">
+                            <label class="form-label">نام و نام خانوادگی</label>
+                            <input class="form-control" asp-for="PatientName">
+                        </div>
+
+                        <div class="col-12 col-md-6 mb-2">
+                            <label class="form-label">موبایل</label>
+                            <input class="form-control" asp-for="PatientMobile">
+                        </div>
+
+                        <div class="col-12 col-md-6 mb-2">
+                            <label class="form-label">کد ملی(اختیاری)</label>
+                            <input class="form-control" asp-for="NationalId">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal" type="button">لغو</button>
+                    <button class="btn btn-sm btn-success" type="submit">ثبت</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

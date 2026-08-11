@@ -1,0 +1,118 @@
+﻿@model Clinic.Application.DTOs.Users.LoginDto
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html dir="rtl" lang="fa" class="remember-theme">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>ورود</title>
+    <meta name="description" content="Dashmix - قالب ادمین بوت استرپ 5 &amp; فریمورک رابط کاربری ساخته شده توسط pixelcave ">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="index, follow">
+
+    <link rel="shortcut icon" href="/template/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/template/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/template/media/favicons/apple-touch-icon-180x180.png">
+    <link rel="stylesheet" id="css-main" href="/template/css/dashmix.min.css">
+    <link href="/template/css/custom-fonts.css" rel="stylesheet" />
+    <script src="/template/js/setTheme.js"></script>
+    <link href="/template/js/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="page-container">
+
+        <!-- Main Container -->
+        <main id="main-container">
+            <!-- Page Content -->
+            <div class="bg-image" style="background-image: url('/template/media/photos/photo22@2x.jpg');">
+                <div class="row g-0 bg-primary-op">
+                    <!-- Main Section -->
+                    <div class="hero-static col-md-6 d-flex align-items-center bg-body-extra-light">
+                        <div class="p-3 w-100">
+                            <!-- Header -->
+                            <div class="mb-3 text-center">
+                                <a class="link-fx fw-bold fs-1" href="/">
+                                    <span class="text-dark">Clinic</span><span class="text-primary">Reservation</span>
+                                </a>
+                                <p class="text-uppercase fw-bold fs-sm text-muted"> ورود </p>
+                            </div>
+                            <div class="row g-0 justify-content-center">
+                                <div class="col-sm-8 col-xl-6">
+                                    <form asp-area="" asp-controller="Account" asp-action="Login" class="js-validation-signin" method="post">
+                                        <div class="py-3">
+                                            <div class="mb-4">
+                                                <input asp-for="Mobile" class="form-control form-control-lg form-control-alt" placeholder="شماره موبایل" />
+                                            </div>
+                                          
+                                            <div class="captcha">
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <input type="text" class="form-control form-control-lg form-control-alt w-100" asp-for="CaptchaCode" required />
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <div class="number-captcha">
+                                                            <img src="/Captcha/Generate" id="captchaImage" style="border:1px solid #ddd" alt="" />
+                                                            <button type="button" onclick="reloadCaptcha()" class="btn btn-sm btn-secondary"><i class="fa fa-refresh"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (ViewData["ErrorMessage"] != null)
+                                            {
+                                                <div class="alert alert-danger my-2">
+                                                    <p class="mb-0">@ViewData["ErrorMessage"]</p>
+                                                </div>
+                                            }
+                                            <p id="alert" class="text-red"></p>
+                                        </div>
+                                        <div class="mb-4">
+                                            <button class="btn w-100 btn-lg btn-hero btn-primary" type="submit">
+                                                <i class="fa fa-fw fa-sign-in-alt opacity-50 me-1"></i> ورود
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- END Sign In Form -->
+                        </div>
+                    </div>
+
+                    <div class="hero-static col-md-6 d-none d-md-flex align-items-md-center justify-content-md-center text-md-center">
+                        <div class="p-3">
+                            <p class="display-4 fw-bold text-white mb-3"> اتوماسیون رزرو کلینیک </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/template/js/lib/jquery.min.js"></script>
+    <script src="/template/js/dashmix.app.min.js"></script>
+    <script src="/template/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="/template/js/pages/op_auth_signin.min.js"></script>
+    <script src="/template/js/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script src="template/js/pages/be_comp_dialogs.min.js"></script>
+    <script src="template/js/custom.js"></script>
+    <partial name="_SiteMessages" />
+
+    <script>
+          function reloadCaptcha() {
+            document.getElementById("captchaImage").src = "/Captcha/Generate?d=" + Date.now();
+        }
+
+                     $("#Captcha").on("blur", function () {
+            $.get("/Captcha/ValidateCaptcha?code=" + $(this).val(), function (result) {
+                if (!result) {
+                    $("#alert").html("کد اعتبارسنجی اشتباه است.");
+                } else {
+                    $("#alert").html("");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
