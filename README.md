@@ -52,6 +52,8 @@ Open `Clinic.sln` in Visual Studio, configure the SQL Server connection in `apps
 ## 👨‍💻 Author
 
 **Mohammad Amin Nazeri**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mohammad-amin-nazeri)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Mohammad-Amin-Nazeri)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E2?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/Aminn02)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/mohammad_amin_nazeri/)
 
-- GitHub: https://github.com/Mohammad-Amin-Nazeri
-- LinkedIn: https://www.linkedin.com/in/mohammad-amin-nazeri/
